@@ -5,14 +5,15 @@ import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from "@angular/forms";
 import { AppComponent } from './app.component';
-import { AddContactComponent } from './add-contact/add-contact.component';
+import { SaveContactComponent } from './save-contact/save-contact.component';
 import { ViewContactComponent } from './view-contact/view-contact.component';
 import { ContactService } from "./services/contact.service";
+import { SharedService } from "./services/shared.service";
 
 @NgModule({
   declarations: [
     AppComponent,
-    AddContactComponent,
+    SaveContactComponent,
     ViewContactComponent
   ],
   //Modules go here
@@ -23,7 +24,7 @@ import { ContactService } from "./services/contact.service";
     FormsModule
   ],
   //All the services go here
-  providers: [ContactService],
+  providers: [ContactService, SharedService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

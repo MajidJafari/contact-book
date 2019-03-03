@@ -20,8 +20,7 @@ export class ContactService {
 
   public deleteContact(contactId : string) {
     let url = `${this.serverApi}.${contactId}`;
-    let headers = new HttpHeaders();
-    headers.append("Content-Type", "application/json");
+    let headers = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
 
     return this.http.delete(url, {headers})
       .pipe(
@@ -41,6 +40,23 @@ export class ContactService {
     console.log("body: ", body);
 
     return this.http.post(this.serverApi, body,{headers})
+      .pipe(
+        map((res : Response) => res.json)
+      );
+  }
+
+  public updateContact(contact: Contact) {
+    let url = `${this.serverApi}.${contact._id}`;
+    let headers = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
+
+    let body = JSON.stringify({
+      name : contact.name,
+      gender: contact.gender,
+      email: contact.email,
+      phoneNumber: contact.phoneNumber,
+    });
+
+    return this.http.put(url, body,{headers})
       .pipe(
         map((res : Response) => res.json)
       );

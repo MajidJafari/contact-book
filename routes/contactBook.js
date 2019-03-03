@@ -14,7 +14,6 @@ router.get("/", (req, res) => {
 });
 
 router.post("/", (req, res) => {
-   console.log(req);
    let newContact = new contactBook({
        name: req.body.name,
        gender: req.body.gender,
@@ -32,8 +31,8 @@ router.post("/", (req, res) => {
 });
 
 router.put("/:id", (req, res) => {
-   let id = req.param.id;
-   let updatedContact = new contactBook({
+    let id = req.params.id.substring(1);
+    let updatedContact = new contactBook({
         name: req.body.name,
         gender: req.body.gender,
         email: req.body.email,
@@ -51,7 +50,7 @@ router.put("/:id", (req, res) => {
 
 router.delete("/:id", (req, res) => {
       //access the parameter which is the id of the item to be deleted
-      let id = req.param.id;
+      let id = req.params.id.substring(1);
 
       // access the parameter which is the id of the item to be deleted
       contactBook.deleteContactById(id, (err, contact) => {

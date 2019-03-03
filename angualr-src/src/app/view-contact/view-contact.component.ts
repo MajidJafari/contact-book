@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { ContactService } from "../services/contact.service";
-import { Contact } from "../models/Contact";
+import {Component, OnInit} from '@angular/core';
+import {ContactService} from "../services/contact.service";
+import {Contact} from "../models/Contact";
+import {Mode, SharedService} from "../services/shared.service";
 
 @Component({
   selector: "app-view-contact",
+  providers: [SharedService],
   templateUrl: "./view-contact.component.html",
   styleUrls: ["./view-contact.component.scss"]
 })
@@ -12,11 +14,18 @@ export class ViewContactComponent implements OnInit {
   /** @var list property an array of Contact type **/
   private contacts: Contact[];
 
-  constructor(private contactService : ContactService) { }
+  constructor(private contactService : ContactService, private sharedService : SharedService) { }
 
   ngOnInit() {
     // Load all contacts on init
     this.loadContacts();
+    this.sharedService.mode = Mode.create;
+    this.sharedService.newContact = {
+      "name": "",
+      "gender": "",
+      "email": "",
+      "phoneNumber": ""
+    };
   }
 
   /**
@@ -28,21 +37,34 @@ export class ViewContactComponent implements OnInit {
     );
   }
 
+  public updateContact(contact) {
+    this.sharedService.mode = Mode.update;
+    this.sharedService.newContact = contact;
+  }
+
   /**
-   * Delete a specific contact. The deleted contact is being filtered out with .filter method.
-   * @param list
+   * Delete a specific newContact. The deleted newContact is being filtered out with .filter method.
+   * @param contact
    */
-  public deleteContact(list : Contact) {
-    this.contactService.deleteContact(list._id).subscribe(
-        () => this.contacts = this.contacts.filter(lists => lists !==  list)
+  public deleteContact(contact : Contact) {
+    this.contactService.deleteContact(contact._id).subscribe(
+        () => this.contacts = this.contacts.filter(lists => lists !==  contact)
       )
   }
 
   /**
    * Add the new list defined by the user to the view
-   * @param newList
+   * @param contact
    */
-  public onAddContacts(newList) {
-    this.contacts = this.contacts.concat(newList);
+  public onAddContacts(contact) {
+    this.contacts = this.contacts.concat(contact);
+  }
+
+  /**
+   * Add the new list defined by the user to the view
+   * @param contact
+   */
+  public onUpdateContacts(contact) {
+    this.loadContacts();
   }
 }

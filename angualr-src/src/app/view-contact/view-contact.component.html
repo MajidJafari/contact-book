@@ -7,6 +7,7 @@
             <th>Gender</th>
             <th>Email</th>
             <th>Phone Number</th>
+            <th> Edit </th>
             <th> Delete </th>
         </tr>
     </thead>
@@ -17,10 +18,13 @@
             <td>{{contact.email}}</td>
             <td>{{contact.phoneNumber}}</td>
             <td>
-                <button type="button" (click)="deleteContact(contact); $event.stopPropagation();"> × </button>
+                <button type="button" (click)="updateContact(contact); $event.stopPropagation();"> Edit </button>
+            </td>
+            <td>
+                <button type="button" (click)="deleteContact(contact); $event.stopPropagation();"> Delete </button>
             </td>
         </tr>
     </tbody>
 </table>
 
-<app-add-contact (addContact) ="onAddContacts($event)"></app-add-contact>
+<app-save-contact (addContact) ="onAddContacts($event)" (updateContact)="onUpdateContacts($event)"></app-save-contact>

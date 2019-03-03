@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const ObjectId = require('mongoose').Types.ObjectId;
 
 const contactSchema = mongoose.Schema({
     name: {
@@ -34,11 +35,15 @@ module.exports.addContact = (newContact, callback) => {
 
 // Here we need to pass an id parameter
 module.exports.updateContactById = (id, updatedContact, callback) => {
-    const query = {_id: id};
-    contactBook.findeOneAndUpdate(query, updatedContact, {upsert: true}, callback);
+    const contact = {
+        name: updatedContact.name,
+        gender: updatedContact.gender,
+        email: updatedContact.email,
+        phoneNumber: updatedContact.phoneNumber,
+    };
+    contactBook.findByIdAndUpdate(id, contact, {new: true}, callback);
 };
 
 module.exports.deleteContactById = (id, callback) => {
-    const query = {_id: id};
-    contactBook.find(query).remove(callback);
+    contactBook.findByIdAndRemove(id, callback);
 };
