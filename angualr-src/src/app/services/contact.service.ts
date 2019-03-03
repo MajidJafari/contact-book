@@ -45,7 +45,7 @@ export class ContactService {
       );
   }
 
-  public updateContact(contact: Contact) {
+  public updateContact(contact : Contact) {
     let url = `${this.serverApi}.${contact._id}`;
     let headers = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
 
@@ -60,5 +60,13 @@ export class ContactService {
       .pipe(
         map((res : Response) => res.json)
       );
+  }
+
+  public searchForContact(nameString : string) : Observable<Contact[]> {
+    let url = `${this.serverApi}search?q=${nameString}`;
+    return this.http.get(url)
+      .pipe(
+        map(res => <Contact[]>res["contacts"])
+      )
   }
 }

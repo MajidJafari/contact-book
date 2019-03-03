@@ -11,9 +11,9 @@ import {Mode, SharedService} from "../services/shared.service";
 })
 export class ViewContactComponent implements OnInit {
 
-  /** @var list property an array of Contact type **/
-  private contacts: Contact[];
 
+  private contacts: Contact[];  /** @var list property an array of Contact type **/
+  private nameString = "";
   constructor(private contactService : ContactService, private sharedService : SharedService) { }
 
   ngOnInit() {
@@ -33,7 +33,7 @@ export class ViewContactComponent implements OnInit {
    */
   public loadContacts() {
     this.contactService.getAllContacts().subscribe(
-        response => this.contacts = response
+        res => this.contacts = res
     );
   }
 
@@ -48,7 +48,7 @@ export class ViewContactComponent implements OnInit {
    */
   public deleteContact(contact : Contact) {
     this.contactService.deleteContact(contact._id).subscribe(
-        () => this.contacts = this.contacts.filter(lists => lists !==  contact)
+        () => this.contacts = this.contacts.filter(contacts => contacts !==  contact)
       )
   }
 
@@ -66,5 +66,11 @@ export class ViewContactComponent implements OnInit {
    */
   public onUpdateContacts(contact) {
     this.loadContacts();
+  }
+
+  public onSearchSubmit() {
+    this.contactService.searchForContact(this.nameString).subscribe(
+      res => this.contacts = res
+    );
   }
 }

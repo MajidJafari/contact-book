@@ -1,5 +1,9 @@
 <h2> Awesome Contact Book App </h2>
 
+<form (submit)="onSearchSubmit()">
+    <input type="text" [(ngModel)]="nameString" name="nameString" placeholder="Search for name...">
+    <button type="submit">Search</button>
+</form>
 <table>
     <thead>
         <tr>
