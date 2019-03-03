@@ -14,11 +14,17 @@ export class ViewContactComponent implements OnInit {
 
   private contacts: Contact[];  /** @var list property an array of Contact type **/
   private nameString = "";
-  constructor(private contactService : ContactService, private sharedService : SharedService) { }
+  private display;
+  private currentPage;
+  private pages;
+  constructor(private contactService : ContactService, private sharedService : SharedService) {
+    this.currentPage = 1;
+    this.display = 3;
+  }
 
   ngOnInit() {
     // Load all contacts on init
-    this.loadContacts();
+    this.loadAllContacts();
     this.sharedService.mode = Mode.create;
     this.sharedService.newContact = {
       "name": "",
@@ -29,11 +35,22 @@ export class ViewContactComponent implements OnInit {
   }
 
   /**
-   * Get all contacts from server and update the list
+   * Get contacts from server and update the list
    */
-  public loadContacts() {
+  public loadAllContacts() {
     this.contactService.getAllContacts().subscribe(
-        res => this.contacts = res
+        res => {
+          this.setPages(res);
+          this.loadContacts(1);
+        }
+    );
+  }
+
+  public loadContacts(page) {
+    this.currentPage = page;
+    let queryParams = `?start=${this.display * (this.currentPage - 1)}&display=${this.display}&search=${this.nameString}`;
+    this.contactService.getContacts(queryParams).subscribe(
+      res => this.contacts = res
     );
   }
 
@@ -65,12 +82,20 @@ export class ViewContactComponent implements OnInit {
    * @param contact
    */
   public onUpdateContacts(contact) {
-    this.loadContacts();
+    this.loadAllContacts();
   }
 
   public onSearchSubmit() {
+    this.currentPage = 1;
     this.contactService.searchForContact(this.nameString).subscribe(
-      res => this.contacts = res
+      res => {
+        this.setPages(res);
+        this.loadContacts(1);
+      }
     );
+  }
+
+  setPages(res) {
+    this.pages = Array.apply(null, {length: Math.ceil(res.length / this.display)}).map(Number.call, Number);
   }
 }

@@ -30,5 +30,5 @@
         </tr>
     </tbody>
 </table>
-
+<span *ngFor="let page of pages" style="border: 1px solid; padding: 5px" (click)="loadContacts(page+1)">{{page + 1}}</span>
 <app-save-contact (addContact) ="onAddContacts($event)" (updateContact)="onUpdateContacts($event)"></app-save-contact>

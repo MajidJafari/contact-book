@@ -18,6 +18,14 @@ export class ContactService {
       )
   }
 
+  public getContacts(queryParams) : Observable<Contact[]> {
+    let url = this.serverApi + queryParams;
+    return this.http.get(url)
+      .pipe(
+        map(res => <Contact[]>res["contacts"])
+      )
+  }
+
   public deleteContact(contactId : string) {
     let url = `${this.serverApi}.${contactId}`;
     let headers = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
