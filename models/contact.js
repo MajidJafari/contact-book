@@ -47,3 +47,8 @@ module.exports.updateContactById = (id, updatedContact, callback) => {
 module.exports.deleteContactById = (id, callback) => {
     contactBook.findByIdAndRemove(id, callback);
 };
+
+module.exports.searchByName = (nameString, callback) => {
+    const regex = new RegExp(nameString, "i");
+    contactBook.find({"name": regex}, callback);
+};
