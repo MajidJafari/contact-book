@@ -1,0 +1,26 @@
+<h2> Awesome Contact Book App </h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Gender</th>
+            <th>Email</th>
+            <th>Phone Number</th>
+            <th> Delete </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let contact of contacts">
+            <td>{{contact.name}}</td>
+            <td>{{contact.gender}}</td>
+            <td>{{contact.email}}</td>
+            <td>{{contact.phoneNumber}}</td>
+            <td>
+                <button type="button" (click)="deleteContact(contact); $event.stopPropagation();"> × </button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<app-add-contact (addContact) ="onAddContacts($event)"></app-add-contact>

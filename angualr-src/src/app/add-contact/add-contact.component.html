@@ -1,0 +1,25 @@
+<div class="container">
+    <form (submit)="onSubmit()">
+        <div>
+            <label for="name">Name</label>
+            <input type="text" id="name" name="title" required  [(ngModel)]="newContact.name" >
+        </div>
+        <div>
+            <label>Gender</label>
+            <div *ngFor="let gender of genders">
+                <label>
+                    <input type="radio" name="gender" [(ngModel)]="newContact.gender" [value]="gender.value">{{gender.display}}
+                </label>
+            </div>
+        </div>
+        <div>
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email"  [(ngModel)]="newContact.email">
+        </div>
+        <div>
+            <label for="phone-number">Phone Number</label>
+            <input type="text" id="phone-number" name="phoneNumber"  [(ngModel)]="newContact.phoneNumber">
+        </div>
+        <button type="submit">Submit</button>
+    </form>
+</div>
