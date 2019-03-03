@@ -3,11 +3,12 @@ const router = express.Router();
 const contactBook = require("../models/contact");
 
 router.get("/", (req, res) => {
-    let nameString = req.query.search;
-
+    const nameString = req.query.search;
+    const start = req.query.start || "0";
+    const display = req.query.display || "3";
     // If user searches for specific names, returns them
     if(nameString) {
-        contactBook.searchByName(nameString, (err, contacts) => {
+        contactBook.searchByName(nameString, start, display, (err, contacts) => {
             if(err) {
                 res.json({success: false, message: `Failed to fetch contacts - Error: ${err}`})
             }
@@ -18,7 +19,7 @@ router.get("/", (req, res) => {
     }
     // Else if user doesn't search for specific names, return all of the contacts
     else {
-        contactBook.getAllContacts((err, contacts) => {
+        contactBook.getAllContacts(start, display, (err, contacts) => {
             if(err) {
                 res.json({success: false, message: `Failed to load all contacts - Error: ${err}`})
             }

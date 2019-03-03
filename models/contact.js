@@ -24,8 +24,8 @@ const contactSchema = mongoose.Schema({
 const contactBook = module.exports = mongoose.model("contacts", contactSchema);
 
 // Get all contacts from DB
-module.exports.getAllContacts = (callback) => {
-    contactBook.find(callback);
+module.exports.getAllContacts = (start, display, callback) => {
+    contactBook.find(callback).skip(start).limit(display);
 };
 
 // Insert the document into MongoDB
@@ -48,7 +48,7 @@ module.exports.deleteContactById = (id, callback) => {
     contactBook.findByIdAndRemove(id, callback);
 };
 
-module.exports.searchByName = (nameString, callback) => {
+module.exports.searchByName = (nameString, start, display, callback) => {
     const regex = new RegExp(nameString, "i");
-    contactBook.find({"name": regex}, callback);
+    contactBook.find({"name": regex}, callback).skip(start).limit(display);
 };
