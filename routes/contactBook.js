@@ -3,14 +3,30 @@ const router = express.Router();
 const contactBook = require("../models/contact");
 
 router.get("/", (req, res) => {
-   contactBook.getAllContacts((err, contacts) => {
-      if(err) {
-         res.json({success: false, message: `Failed to load all contacts - Error: ${err}`})
-      }
-      else {
-         res.json({success: true, contacts: contacts});
-      }
-   })
+    let nameString = req.query.search;
+
+    // If user searches for specific names, returns them
+    if(nameString) {
+        contactBook.searchByName(nameString, (err, contacts) => {
+            if(err) {
+                res.json({success: false, message: `Failed to fetch contacts - Error: ${err}`})
+            }
+            else {
+                res.json({success: true, contacts: contacts});
+            }
+        });
+    }
+    // Else if user doesn't search for specific names, return all of the contacts
+    else {
+        contactBook.getAllContacts((err, contacts) => {
+            if(err) {
+                res.json({success: false, message: `Failed to load all contacts - Error: ${err}`})
+            }
+            else {
+                res.json({success: true, contacts: contacts});
+            }
+        });
+    }
 });
 
 router.post("/", (req, res) => {
@@ -64,24 +80,6 @@ router.delete("/:id", (req, res) => {
             res.json({success: false});
          }
       });
-});
-
-router.get("/search", (req, res) => {
-    //access the parameter which is the id of the item to be deleted
-    let nameString = req.query.q;
-
-    // access the parameter which is the id of the item to be deleted
-    contactBook.searchByName(nameString, (err, contacts) => {
-        if(err) {
-            res.json({success: false, message: `Failed to fetch contacts - Error: ${err}`})
-        }
-        else if (contacts) {
-            res.json({success: true, contacts: contacts});
-        }
-        else {
-            res.json({success: false});
-        }
-    });
 });
 
 module.exports = router;

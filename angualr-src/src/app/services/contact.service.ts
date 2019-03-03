@@ -63,7 +63,7 @@ export class ContactService {
   }
 
   public searchForContact(nameString : string) : Observable<Contact[]> {
-    let url = `${this.serverApi}search?q=${nameString}`;
+    let url = `${this.serverApi}?search=${nameString}`;
     return this.http.get(url)
       .pipe(
         map(res => <Contact[]>res["contacts"])
