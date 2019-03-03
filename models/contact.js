@@ -52,3 +52,7 @@ module.exports.searchByName = (nameString, start, display, callback) => {
     const regex = new RegExp(nameString, "i");
     contactBook.find({"name": regex}, callback).skip(start).limit(display);
 };
+
+module.exports.count = (query, callback) => {
+    contactBook.count(query, callback);
+};
