@@ -14,8 +14,8 @@ router.get("/", (req, res) => {
 });
 
 router.post("/", (req, res) => {
-    console.log(req);
-    let newContact = new contactBook({
+   console.log(req);
+   let newContact = new contactBook({
        name: req.body.name,
        gender: req.body.gender,
        email: req.body.email,
@@ -31,10 +31,29 @@ router.post("/", (req, res) => {
    });
 });
 
+router.put("/:id", (req, res) => {
+   let id = req.param.id;
+   let updatedContact = new contactBook({
+        name: req.body.name,
+        gender: req.body.gender,
+        email: req.body.email,
+        phoneNumber: req.body.phoneNumber
+    });
+   contactBook.updateContactById(id, updatedContact, (err, contact) => {
+      if (err) {
+          res.json({success: false, message: `Failed to update the contact - Error: ${err}`});
+      }
+      else {
+          res.json({success: true, message: "Updated successfully"});
+      }
+    });
+});
+
 router.delete("/:id", (req, res) => {
-   //access the parameter which is the id of the item to be deleted
+      //access the parameter which is the id of the item to be deleted
       let id = req.param.id;
-    // access the parameter which is the id of the item to be deleted
+
+      // access the parameter which is the id of the item to be deleted
       contactBook.deleteContactById(id, (err, contact) => {
          if(err) {
             res.json({success: false, message: `Failed to delete the contact - Error: ${err}`})

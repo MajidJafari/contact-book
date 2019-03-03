@@ -32,7 +32,13 @@ module.exports.addContact = (newContact, callback) => {
     newContact.save(callback);
 };
 
-// Here we need to pass an id parameter to contact.remove
+// Here we need to pass an id parameter
+module.exports.updateContactById = (id, updatedContact, callback) => {
+    const query = {_id: id};
+    contactBook.findeOneAndUpdate(query, updatedContact, {upsert: true}, callback);
+};
+
 module.exports.deleteContactById = (id, callback) => {
-    contactBook.find({id: id}).remove(callback);
+    const query = {_id: id};
+    contactBook.find(query).remove(callback);
 };
