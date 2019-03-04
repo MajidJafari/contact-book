@@ -6,9 +6,12 @@ router.get("/", (req, res) => {
     const nameString = req.query.search;
     const start = req.query.start || "0";
     let display = req.query.display || "100";
+    let sortBy = req.query.sort || "name";
+    let sortMode = req.query.mode || "asc";
+
     // If user searches for specific names, returns them
     if(nameString) {
-        contactBook.searchByName(nameString, Number(start), Number(display), (err, contacts) => {
+        contactBook.searchByName(nameString, Number(start), Number(display), sortBy, sortMode, (err, contacts) => {
             if(err) {
                 res.json({success: false, message: `Failed to fetch contacts - Error: ${err}`})
             }
@@ -19,7 +22,7 @@ router.get("/", (req, res) => {
     }
     // Else if user doesn't search for specific names, return all of the contacts
     else {
-        contactBook.getAllContacts(Number(start), Number(display), (err, contacts) => {
+        contactBook.getAllContacts(Number(start), Number(display), sortBy, sortMode, (err, contacts) => {
             if(err) {
                 res.json({success: false, message: `Failed to load all contacts - Error: ${err}`})
             }
