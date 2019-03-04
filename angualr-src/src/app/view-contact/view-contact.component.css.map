@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAAA,gBAAiB;EACf,MAAM,EAAE,OAAO",
+"sources": ["view-contact.component.scss"],
+"names": [],
+"file": "view-contact.component.css"
+}

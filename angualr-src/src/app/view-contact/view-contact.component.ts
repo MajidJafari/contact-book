@@ -17,9 +17,13 @@ export class ViewContactComponent implements OnInit {
   private display;
   private currentPage;
   private pages;
+  private sortBy;
+  private sortMode;
   constructor(private contactService : ContactService, private sharedService : SharedService) {
     this.currentPage = 1;
     this.display = 3;
+    this.sortBy = "name";
+    this.sortMode = "asc";
   }
 
   ngOnInit() {
@@ -48,7 +52,7 @@ export class ViewContactComponent implements OnInit {
 
   public loadContacts(page) {
     this.currentPage = page;
-    let queryParams = `?start=${this.display * (this.currentPage - 1)}&display=${this.display}&search=${this.nameString}`;
+    let queryParams = `?start=${this.display * (this.currentPage - 1)}&display=${this.display}&search=${this.nameString}&sort=${this.sortBy}&mode=${this.sortMode}`;
     this.contactService.getContacts(queryParams).subscribe(
       res => this.contacts = res
     );
@@ -97,5 +101,23 @@ export class ViewContactComponent implements OnInit {
 
   setPages(res) {
     this.pages = Array.apply(null, {length: Math.ceil(res.length / this.display)}).map(Number.call, Number);
+  }
+
+  public toggleSortCriteria(sortBy) {
+    if(this.sortBy === sortBy) {
+      this.toggleSortMode();
+    }
+
+    this.sortBy = sortBy;
+    this.loadContacts(this.currentPage);
+  }
+
+  private toggleSortMode() {
+    if(this.sortMode === "asc") {
+      this.sortMode = "desc";
+    }
+    else if (this.sortMode === "desc") {
+      this.sortMode = "asc";
+    }
   }
 }
