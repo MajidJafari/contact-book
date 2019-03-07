@@ -4,10 +4,6 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const sassMiddleware = require("node-sass-middleware");
 const cors = require("cors");
-const mongoose = require("mongoose");
-
-const config = require("./config/databse");
-mongoose.connect(config.database, {useNewUrlParser: true});
 
 const indexRouter = require("./routes/index");
 const contactBookRouter = require("./routes/contactBook");

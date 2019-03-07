@@ -1,89 +1,76 @@
 const express = require("express");
 const router = express.Router();
-const contactBook = require("../models/contact");
+const config = require("../config/databse");
+const mongo = require('mongodb');
+const Contact = require("../models/Contact");
+const ContactRepository = require("../repositories/ContactRepository");
 
-router.get("/", (req, res) => {
-    const nameString = req.query.search;
-    const start = req.query.start || "0";
-    let display = req.query.display || "100";
-    let sortBy = req.query.sort || "name";
-    let sortMode = req.query.mode || "asc";
+const CircularJSON = require("flatted");
 
-    // If user searches for specific names, returns them
-    if(nameString) {
-        contactBook.searchByName(nameString, Number(start), Number(display), sortBy, sortMode, (err, contacts) => {
-            if(err) {
-                res.json({success: false, message: `Failed to fetch contacts - Error: ${err}`})
-            }
-            else {
-                res.json({success: true, contacts: contacts});
-            }
-        });
-    }
-    // Else if user doesn't search for specific names, return all of the contacts
-    else {
-        contactBook.getAllContacts(Number(start), Number(display), sortBy, sortMode, (err, contacts) => {
-            if(err) {
-                res.json({success: false, message: `Failed to load all contacts - Error: ${err}`})
-            }
-            else {
-                res.json({success: true, contacts: contacts});
-            }
-        });
-    }
-});
+let connection;
+let db;
+let repository;
 
-router.post("/", (req, res) => {
-   let newContact = new contactBook({
-       name: req.body.name,
-       gender: req.body.gender,
-       email: req.body.email,
-       phoneNumber: req.body.phoneNumber
-   });
-   contactBook.addContact(newContact, (err, contact) => {
-      if(err) {
-         res.json({success: false, message: `Failed to create a new contact - Error: ${err}`});
-      }
-      else {
-         res.json({success: true, message: "Added successfully"});
-      }
-   });
-});
+(async () => {
+    const MongoClient = mongo.MongoClient;
+    connection = await MongoClient.connect(config.database, { useNewUrlParser: true });
+    db = connection.db("contactBook");
+    repository = new ContactRepository(db);
 
-router.put("/:id", (req, res) => {
-    let id = req.params.id.substring(1);
-    let updatedContact = new contactBook({
-        name: req.body.name,
-        gender: req.body.gender,
-        email: req.body.email,
-        phoneNumber: req.body.phoneNumber
+    router.get("/", async (req, res) => {
+        const nameString = req.query.search;
+        const sortBy = req.query.sort || "name";
+        const sortMode = req.query.mode || "asc";
+        const start = Number(req.query.start) || 0;
+        const display = Number(req.query.display) || 100;
+
+        try {
+            const contacts = await repository.getAllContacts(sortBy, sortMode, start, display, nameString);
+            contacts.toArray().then(result => {
+                res.json({success: true, contacts: result});
+            }).catch(err => {
+                res.json({success: false, message: `Failed to load all contacts - Error${err}`});
+            });
+        }
+        catch (err) {
+            res.json({success: false, message: `Failed to load all contacts - Error${err}`});
+        }
     });
-   contactBook.updateContactById(id, updatedContact, (err, contact) => {
-      if (err) {
-          res.json({success: false, message: `Failed to update the contact - Error: ${err}`});
-      }
-      else {
-          res.json({success: true, message: "Updated successfully"});
-      }
+
+    router.post("/", async (req, res) => {
+        const newContact = new Contact(
+            req.body.name,
+            req.body.gender,
+            req.body.email,
+            req.body.phoneNumber
+        );
+
+        await repository.create(newContact)
+            ? res.json({success: true, message: "Created successfully"})
+            : res.json({success: false, message: "Failed to create a new contact"});
+        });
+
+    router.put("/:id", async (req, res) => {
+        const id = req.params.id.substring(1);
+        const updatedContact = new Contact(
+            req.body.name,
+            req.body.gender,
+            req.body.email,
+            req.body.phoneNumber
+        );
+
+        await repository.update(id, updatedContact)
+            ? res.json({success: true, message: "Updated successfully"})
+            : res.json({success: false, message: "Failed to update the contact"});
     });
-});
 
-router.delete("/:id", (req, res) => {
-      //access the parameter which is the id of the item to be deleted
-      let id = req.params.id.substring(1);
-
-      // access the parameter which is the id of the item to be deleted
-      contactBook.deleteContactById(id, (err, contact) => {
-         if(err) {
-            res.json({success: false, message: `Failed to delete the contact - Error: ${err}`})
-         }
-         else if (contact) {
-            res.json({success: true, message: "Deleted successfully"});
-         }
-         else {
-            res.json({success: false});
-         }
-      });
-});
+    router.delete("/:id", async (req, res) => {
+        const id = req.params.id.substring(1);
+    
+        await repository.delete(id)
+            ? res.json({success: true, message: "Deleted successfully"})
+            : res.json({success: false, message: "Failed to delete the contact"});
+    });
+})();
 
 module.exports = router;

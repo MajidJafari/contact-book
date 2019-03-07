@@ -52,7 +52,8 @@ export class ViewContactComponent implements OnInit {
 
   public loadContacts(page) {
     this.currentPage = page;
-    let queryParams = `?start=${this.display * (this.currentPage - 1)}&display=${this.display}&search=${this.nameString}&sort=${this.sortBy}&mode=${this.sortMode}`;
+    const queryParams = `?start=
+      ${this.display * (this.currentPage - 1)}&display=${this.display}&search=${this.nameString}&sort=${this.sortBy}&mode=${this.sortMode}`;
     this.contactService.getContacts(queryParams).subscribe(
       res => this.contacts = res
     );
@@ -70,7 +71,7 @@ export class ViewContactComponent implements OnInit {
   public deleteContact(contact : Contact) {
     this.contactService.deleteContact(contact._id).subscribe(
         () => this.contacts = this.contacts.filter(contacts => contacts !==  contact)
-      )
+    );
   }
 
   /**
@@ -104,7 +105,7 @@ export class ViewContactComponent implements OnInit {
   }
 
   public toggleSortCriteria(sortBy) {
-    if(this.sortBy === sortBy) {
+    if (this.sortBy === sortBy) {
       this.toggleSortMode();
     }
 
@@ -113,7 +114,7 @@ export class ViewContactComponent implements OnInit {
   }
 
   private toggleSortMode() {
-    if(this.sortMode === "asc") {
+    if (this.sortMode === "asc") {
       this.sortMode = "desc";
     }
     else if (this.sortMode === "desc") {
