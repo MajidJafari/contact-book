@@ -1,34 +1,36 @@
-<h2> Awesome Contact Book App </h2>
+<div *ngIf="app.isLoggedIn">
+    <h2> Awesome Contact Book App </h2>
 
-<form (submit)="onSearchSubmit()">
-    <input type="text" [(ngModel)]="nameString" name="nameString" placeholder="Search for name...">
-    <button type="submit">Search</button>
-</form>
-<table>
-    <thead>
-        <tr>
-            <th (click)="toggleSortCriteria('name')">Name</th>
-            <th (click)="toggleSortCriteria('gender')">Gender</th>
-            <th (click)="toggleSortCriteria('email')">Email</th>
-            <th (click)="toggleSortCriteria('phoneNumber')">Phone Number</th>
-            <th> Edit </th>
-            <th> Delete </th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let contact of contacts">
-            <td>{{contact.name}}</td>
-            <td>{{contact.gender}}</td>
-            <td>{{contact.email}}</td>
-            <td>{{contact.phoneNumber}}</td>
-            <td>
-                <button type="button" (click)="updateContact(contact); $event.stopPropagation();"> Edit </button>
-            </td>
-            <td>
-                <button type="button" (click)="deleteContact(contact); $event.stopPropagation();"> Delete </button>
-            </td>
-        </tr>
-    </tbody>
-</table>
-<span *ngFor="let page of pages" style="border: 1px solid; padding: 5px" (click)="loadContacts(page+1)">{{page + 1}}</span>
-<app-save-contact (addContact) ="onAddContacts($event)" (updateContact)="onUpdateContacts($event)"></app-save-contact>
+    <form (submit)="onSearchSubmit()">
+        <input type="text" [(ngModel)]="nameString" name="nameString" placeholder="Search for name...">
+        <button type="submit">Search</button>
+    </form>
+    <table>
+        <thead>
+            <tr>
+                <th (click)="toggleSortCriteria('name')">Name</th>
+                <th (click)="toggleSortCriteria('gender')">Gender</th>
+                <th (click)="toggleSortCriteria('email')">Email</th>
+                <th (click)="toggleSortCriteria('phoneNumber')">Phone Number</th>
+                <th> Edit </th>
+                <th> Delete </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let contact of contacts">
+                <td>{{contact.name}}</td>
+                <td>{{contact.gender}}</td>
+                <td>{{contact.email}}</td>
+                <td>{{contact.phoneNumber}}</td>
+                <td>
+                    <button type="button" (click)="updateContact(contact); $event.stopPropagation();"> Edit </button>
+                </td>
+                <td>
+                    <button type="button" (click)="deleteContact(contact); $event.stopPropagation();"> Delete </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <span *ngFor="let page of pages" style="border: 1px solid; padding: 5px" (click)="loadContacts(page+1)">{{page + 1}}</span>
+    <app-save-contact (addContact) ="onAddContacts($event)" (updateContact)="onUpdateContacts($event)"></app-save-contact>
+</div>

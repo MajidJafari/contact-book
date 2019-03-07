@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {ContactService} from "../services/contact.service";
 import {Contact} from "../models/Contact";
 import {Mode, SharedService} from "../services/shared.service";
+import { AppComponent } from '../app.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: "app-view-contact",
@@ -19,7 +21,12 @@ export class ViewContactComponent implements OnInit {
   private pages;
   private sortBy;
   private sortMode;
-  constructor(private contactService : ContactService, private sharedService : SharedService) {
+  constructor(
+      private contactService : ContactService,
+      private sharedService : SharedService,
+      private app : AppComponent,
+      private router: Router
+    ) {
     this.currentPage = 1;
     this.display = 3;
     this.sortBy = "name";
@@ -27,6 +34,9 @@ export class ViewContactComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (!this.app.isLoggedIn) {
+      this.router.navigate(["/"]);
+    }
     // Load all contacts on init
     this.loadAllContacts();
     this.sharedService.mode = Mode.create;

@@ -7,4 +7,13 @@ import { Component } from "@angular/core";
 })
 export class AppComponent {
   title = "Contact Book Application";
+  private _isLoggedIn = false;
+
+  set isLoggedIn(value: boolean) {
+    this._isLoggedIn = value;
+  }
+
+  get isLoggedIn() : boolean {
+    return this._isLoggedIn;
+  }
 }

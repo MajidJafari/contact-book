@@ -9,21 +9,23 @@ import { SaveContactComponent } from './save-contact/save-contact.component';
 import { ViewContactComponent } from './view-contact/view-contact.component';
 import { ContactService } from "./services/contact.service";
 import { SharedService } from "./services/shared.service";
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SaveContactComponent,
-    ViewContactComponent
+    ViewContactComponent,
+    LoginComponent
   ],
-  //Modules go here
+  // Modules go here
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule
   ],
-  //All the services go here
+  // All the services go here
   providers: [ContactService, SharedService],
   bootstrap: [AppComponent]
 })
