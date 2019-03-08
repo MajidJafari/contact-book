@@ -18,8 +18,6 @@ let repository;
     repository = new ContactRepository(db);
 
     router.get("/", async (req, res) => {
-        console.log(req.sessionID);
-        console.log(req.session.isLoggedIn);
         const nameString = req.query.search;
         const sortBy = req.query.sort || "name";
         const sortMode = req.query.mode || "asc";

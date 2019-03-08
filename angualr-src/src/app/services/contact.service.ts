@@ -49,7 +49,7 @@ export class ContactService {
 
     return this.http.post(this.serverApi, body, {headers})
       .pipe(
-        map((res : Response) => res.json)
+        map((res : Response) => res)
       );
   }
 
@@ -66,7 +66,7 @@ export class ContactService {
 
     return this.http.put(url, body, {headers})
       .pipe(
-        map((res : Response) => res.json)
+        map((res : Response) => res)
       );
   }
 
