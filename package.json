@@ -12,7 +12,6 @@
     "cors": "^2.8.5",
     "debug": "~2.6.9",
     "express": "~4.16.0",
-    "flatted": "^2.0.0",
     "mongodb": "^3.1.13",
     "morgan": "~1.9.0",
     "node-sass-middleware": "0.11.0",

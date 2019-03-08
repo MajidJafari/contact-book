@@ -5,8 +5,6 @@ const mongo = require('mongodb');
 const Contact = require("../models/Contact");
 const ContactRepository = require("../repositories/ContactRepository");
 
-const CircularJSON = require("flatted");
-
 let connection;
 let db;
 let repository;
