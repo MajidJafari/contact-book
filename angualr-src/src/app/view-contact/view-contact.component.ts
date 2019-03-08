@@ -133,7 +133,7 @@ export class ViewContactComponent implements OnInit {
     this.sharedService.mode = Mode.create;
     this.sharedService.newContact = {
       name: "",
-      gender: "",
+      gender: "Male",
       email: "",
       phoneNumber: ""
     };
