@@ -21,12 +21,7 @@ export class ViewContactComponent implements OnInit {
   private pages;
   private sortBy;
   private sortMode;
-  constructor(
-      private contactService : ContactService,
-      private sharedService : SharedService,
-      private app : AppComponent,
-      private router: Router
-    ) {
+  constructor(private contactService: ContactService, private sharedService: SharedService, private app: AppComponent, private router: Router) {
     this.currentPage = 1;
     this.display = 3;
     this.sortBy = "name";
@@ -39,7 +34,6 @@ export class ViewContactComponent implements OnInit {
     }
     // Load all contacts on init
     this.loadAllContacts();
-    this.sharedService.mode = Mode.create;
     this.sharedService.newContact = {
       "name": "",
       "gender": "",
@@ -72,6 +66,8 @@ export class ViewContactComponent implements OnInit {
   public updateContact(contact) {
     this.sharedService.mode = Mode.update;
     this.sharedService.newContact = contact;
+    this.sharedService.errors = {};
+    this.sharedService.submitted = false;
   }
 
   /**
@@ -130,5 +126,16 @@ export class ViewContactComponent implements OnInit {
     else if (this.sortMode === "desc") {
       this.sortMode = "asc";
     }
+  }
+
+  public onCreateContact() {
+    this.sharedService.submitted = false;
+    this.sharedService.mode = Mode.create;
+    this.sharedService.newContact = {
+      name: "",
+      gender: "",
+      email: "",
+      phoneNumber: ""
+    };
   }
 }

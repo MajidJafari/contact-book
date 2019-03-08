@@ -30,6 +30,6 @@ app.use(logger("dev"))
         res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
         res.header('Access-Control-Allow-Headers', 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept');
         next();
-    });;
+    });
 
 module.exports = app;

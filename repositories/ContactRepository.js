@@ -6,7 +6,7 @@ class ContactRepository {
     }
 
     async create(contact) {
-        const result = await this._collection.insert(contact);
+        const result = await this._collection.insertOne(contact);
         return !!result.result.ok;
     }
 

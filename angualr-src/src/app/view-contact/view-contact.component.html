@@ -5,6 +5,7 @@
         <input type="text" [(ngModel)]="nameString" name="nameString" placeholder="Search for name...">
         <button type="submit">Search</button>
     </form>
+    <button (click) = "onCreateContact()">Add new contact</button>
     <table>
         <thead>
             <tr>
@@ -32,5 +33,5 @@
         </tbody>
     </table>
     <span *ngFor="let page of pages" style="border: 1px solid; padding: 5px" (click)="loadContacts(page+1)">{{page + 1}}</span>
-    <app-save-contact (addContact) ="onAddContacts($event)" (updateContact)="onUpdateContacts($event)"></app-save-contact>
+    <app-save-contact *ngIf="sharedService.mode === 'add' || sharedService.mode === 'edit'" (addContact) ="onAddContacts($event)" (updateContact)="onUpdateContacts($event)"></app-save-contact>
 </div>

@@ -9,6 +9,8 @@ export class SharedService {
 
   mode: Mode;
   newContact: Contact;
+  errors = {};
+  submitted: boolean;
 }
 
 

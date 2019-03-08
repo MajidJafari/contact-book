@@ -1,24 +1,43 @@
 <div class="container">
-    <form (submit)="onSubmit()">
+    <form (submit)="onSubmit()" [formGroup]="contactForm">
         <div>
             <label for="name">Name</label>
-            <input type="text" id="name" name="title" required  [(ngModel)]="sharedService.newContact.name" >
+            <input type="text" id="name" formControlName="name" required [(ngModel)]="sharedService.newContact.name">
+            <div *ngIf="sharedService.submitted && f.name.errors" class="invalid-feedback">
+                <span *ngIf="f.name.errors.required">Name is mandatory</span>
+                <span *ngIf="f.name.errors.pattern">Name is invalid: must be a text, and at least 3 and at most 32 characters length</span>
+                <span>{{sharedService.errors.name}}</span>
+            </div>
         </div>
         <div>
             <label>Gender</label>
             <div *ngFor="let gender of genders">
                 <label>
-                    <input type="radio" name="gender" [(ngModel)]="sharedService.newContact.gender" [value]="gender.value">{{gender.display}}
+                    <input type="radio" formControlName="gender" [(ngModel)]="sharedService.newContact.gender" [value]="gender.value">{{gender.display}}
+                    <div *ngIf="sharedService.submitted && f.gender.errors && sharedService.newContact.gender === gender.value" class="invalid-feedback">
+                        <span *ngIf="f.gender.errors.required">Gender is mandatory</span>
+                        <span *ngIf="f.gender.errors.pattern">Gender is invalid: must be only male or female</span>
+                        <span>{{sharedService.errors.gender}}</span>
+                    </div>
                 </label>
             </div>
         </div>
         <div>
             <label for="email">Email</label>
-            <input type="email" id="email" name="email"  [(ngModel)]="sharedService.newContact.email">
+            <input type="email" id="email" formControlName="email"  [(ngModel)]="sharedService.newContact.email">
+            <div *ngIf="sharedService.submitted && f.email.errors" class="invalid-feedback">
+                <span *ngIf="f.email.errors.email">Email is inavlid</span>
+                <span>{{sharedService.errors.email}}</span>
+            </div>
         </div>
         <div>
             <label for="phone-number">Phone Number</label>
-            <input type="text" id="phone-number" name="phoneNumber"  [(ngModel)]="sharedService.newContact.phoneNumber">
+            <input type="text" id="phone-number" formControlName="phoneNumber"  [(ngModel)]="sharedService.newContact.phoneNumber">
+            <div *ngIf="sharedService.submitted && f.phoneNumber.errors" class="invalid-feedback">
+                <span *ngIf="f.phoneNumber.errors.required">PhoneNumber is mandatory</span>
+                <span *ngIf="f.phoneNumber.errors.pattern">PhoneNmber is invalid</span>
+                <span>{{sharedService.errors.phoneNumber}}</span>
+            </div>
         </div>
         <button type="submit">Submit</button>
     </form>

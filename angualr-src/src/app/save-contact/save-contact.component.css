@@ -1,4 +1,7 @@
 button {
   cursor: pointer; }
 
+span:first-letter {
+    text-transform:capitalize;
+}
 /*# sourceMappingURL=save-contact.component.css.map */
