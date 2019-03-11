@@ -1,3 +1,49 @@
 span, th, button {
   cursor: pointer;
 }
+
+.pagination {
+    z-index: 100 !important;
+    left: -25px;
+    position: relative;
+    font-weight: bold;
+}
+
+table {
+  margin-top: 20px;
+  padding: 50px 50px 80px 50px;
+  width: 100%;
+  th {
+    font-weight: 900;
+    .mat-sort-header-container {
+      justify-content: center !important;
+    }
+  }
+}
+
+tr {
+  td.data {
+    font-style: italic;
+  }
+}
+
+#pagination {
+  position: relative;
+  top: -70px;
+  display: flex;
+  justify-content: center;
+  span {
+    margin: 0 10px;
+  }
+}
+
+#create-contact-button {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+}
+
+#search-form {
+  display: flex;
+  justify-content: center;
+}

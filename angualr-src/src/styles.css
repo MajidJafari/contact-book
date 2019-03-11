@@ -1,1 +1,24 @@
 /* You can add global styles to this file, and also import other style files */
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+* {
+    font-family: sans-serif;
+}
+.material-icons-new {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.icon-white {
+    webkit-filter: contrast(4) invert(1);
+    -moz-filter: contrast(4) invert(1);
+    -o-filter: contrast(4) invert(1);
+    -ms-filter: contrast(4) invert(1);
+    filter: contrast(4) invert(1);
+}
+
+.scale-2 {
+    transform: scale(2);
+}

@@ -10,6 +10,8 @@ import { ViewContactComponent } from './view-contact/view-contact.component';
 import { ContactService } from "./services/contact.service";
 import { SharedService } from "./services/shared.service";
 import { LoginComponent } from './login/login.component';
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations"
+import { MatButtonModule, MatTableModule, MatSortModule, MatFormFieldModule, MatInputModule, MatRadioModule, MatIconModule } from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,15 @@ import { LoginComponent } from './login/login.component';
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
+    MatButtonModule,
+    MatTableModule,
+    MatSortModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatRadioModule,
+    MatIconModule
   ],
   // All the services go here
   providers: [ContactService, SharedService],

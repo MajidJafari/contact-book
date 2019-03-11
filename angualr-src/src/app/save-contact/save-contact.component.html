@@ -1,44 +1,38 @@
 <div class="container">
-    <form (submit)="onSubmit()" [formGroup]="contactForm">
-        <div>
-            <label for="name">Name</label>
-            <input type="text" id="name" formControlName="name" required [(ngModel)]="sharedService.newContact.name">
-            <div *ngIf="sharedService.submitted && f.name.errors" class="invalid-feedback">
-                <span *ngIf="f.name.errors.required">Name is mandatory</span>
-                <span *ngIf="f.name.errors.pattern">Name is invalid: must be a text, and at least 3 and at most 32 characters length</span>
-                <span>{{sharedService.errors.name}}</span>
+    <form id="contact-form" (submit)="onSubmit()" [formGroup]="contactForm">
+        <div class="custom-outline-container">
+            <label class="custom-group-label">
+                <span>Gender *</span>
+            </label>
+            <div class="custom-group-container">
+                <mat-radio-group formControlName="gender" [(ngModel)]="sharedService.newContact.gender" *ngFor="let gender of genders">
+                    <mat-radio-button [value]="gender.value">{{gender.display}}</mat-radio-button>
+                </mat-radio-group>
+                <i matSuffix class="material-icons colored-icon" style="position: relative;left: 70px;">wc</i>
             </div>
         </div>
         <div>
-            <label>Gender</label>
-            <div *ngFor="let gender of genders">
-                <label>
-                    <input type="radio" formControlName="gender" [(ngModel)]="sharedService.newContact.gender" [value]="gender.value">{{gender.display}}
-                    <div *ngIf="sharedService.submitted && f.gender.errors && sharedService.newContact.gender === gender.value" class="invalid-feedback">
-                        <span *ngIf="f.gender.errors.required">Gender is mandatory</span>
-                        <span *ngIf="f.gender.errors.pattern">Gender is invalid: must be only male or female</span>
-                        <span>{{sharedService.errors.gender}}</span>
-                    </div>
-                </label>
-            </div>
+            <mat-form-field appearance="outline">
+            <mat-label>Name</mat-label>
+            <input matInput placeholder="Please enter name" id="name" formControlName="name" required [(ngModel)]="sharedService.newContact.name">
+            <i matSuffix class="material-icons colored-icon">face</i>
+            <mat-hint *ngIf="(sharedService.submitted || !f.pristine) && f.name.errors && f.name.errors.pattern" class="error">Must be 3 to 32 characters length</mat-hint>
+            </mat-form-field>
         </div>
         <div>
-            <label for="email">Email</label>
-            <input type="email" id="email" formControlName="email"  [(ngModel)]="sharedService.newContact.email">
-            <div *ngIf="sharedService.submitted && f.email.errors" class="invalid-feedback">
-                <span *ngIf="f.email.errors.email">Email is inavlid</span>
-                <span>{{sharedService.errors.email}}</span>
-            </div>
+            <mat-form-field appearance="outline">
+                <mat-label>Email</mat-label>
+                <input matInput placeholder="Please enter email" id="email" formControlName="email" [(ngModel)]="sharedService.newContact.email">
+                <i matSuffix class="material-icons colored-icon">email</i>
+            </mat-form-field>
         </div>
         <div>
-            <label for="phone-number">Phone Number</label>
-            <input type="text" id="phone-number" formControlName="phoneNumber"  [(ngModel)]="sharedService.newContact.phoneNumber">
-            <div *ngIf="sharedService.submitted && f.phoneNumber.errors" class="invalid-feedback">
-                <span *ngIf="f.phoneNumber.errors.required">PhoneNumber is mandatory</span>
-                <span *ngIf="f.phoneNumber.errors.pattern">PhoneNmber is invalid</span>
-                <span>{{sharedService.errors.phoneNumber}}</span>
-            </div>
+            <mat-form-field appearance="outline">
+                <mat-label>Phone Number</mat-label>
+                <input matInput placeholder="Please enter phone number" id="phone-number" formControlName="phoneNumber" required [(ngModel)]="sharedService.newContact.phoneNumber">
+                <i matSuffix class="material-icons colored-icon">phone</i>
+            </mat-form-field>
         </div>
-        <button type="submit">Submit</button>
+        <button mat-raised-button type="submit" color="primary" id="submit-button" [disabled]="f.invalid">submit</button>
     </form>
 </div>

@@ -1,9 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {ContactService} from "../services/contact.service";
 import {Contact} from "../models/Contact";
 import {Mode, SharedService} from "../services/shared.service";
 import { AppComponent } from '../app.component';
 import { Router } from '@angular/router';
+import { MatSort, MatTableDataSource } from '@angular/material';
 
 @Component({
   selector: "app-view-contact",
@@ -13,7 +14,8 @@ import { Router } from '@angular/router';
 })
 export class ViewContactComponent implements OnInit {
 
-
+  @ViewChild(MatSort) sort: MatSort;
+  columnsToDisplay = ["name", "gender", "email", "phoneNumber", "edit", "delete"];
   private contacts: Contact[];  /** @var list property an array of Contact type **/
   private nameString = "";
   private display;
@@ -21,11 +23,17 @@ export class ViewContactComponent implements OnInit {
   private pages;
   private sortBy;
   private sortMode;
+  private contactSource: MatTableDataSource<Contact>
   constructor(private contactService: ContactService, private sharedService: SharedService, private app: AppComponent, private router: Router) {
     this.currentPage = 1;
     this.display = 3;
     this.sortBy = "name";
     this.sortMode = "asc";
+    let contacts;
+    this.contactService.getAllContacts().subscribe(
+      res => contacts = res
+    );
+    this.contactSource = new MatTableDataSource(contacts);
   }
 
   ngOnInit() {
@@ -40,6 +48,7 @@ export class ViewContactComponent implements OnInit {
       "email": "",
       "phoneNumber": ""
     };
+    this.contactSource.sort = this.sort;
   }
 
   /**

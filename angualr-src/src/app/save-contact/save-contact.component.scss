@@ -1,3 +1,47 @@
-button {
-  cursor: pointer;
+#contact-form {
+  box-shadow: 0 5px 5px -3px rgba(0,0,0,.2), 0 8px 10px 1px rgba(0,0,0,.14), 0 3px 14px 2px rgba(0,0,0,.12);
+  padding: 50px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.custom-outline-container {
+  border: 1px solid #e4e4e4;
+  border-radius: 5px;
+  padding: 0 80px 10px 10px;
+  margin-top: 4px;
+  max-height: 50px;
+}
+
+.custom-group-container {
+  display: flex;
+  justify-content: start;
+  mat-radio-group:nth-of-type(2) {
+    margin-left: 20px;
+  }
+}
+
+.custom-group-label {
+  padding: 5px 10px 10px 0;
+  font-size: 13px;
+  color: #666665;
+  position: relative;
+  top: -8px;
+  span {
+    background: #fff;
+    padding: 5px;
+  }
+}
+
+.error {
+  color: #f51d0d;
+  font-weight: bold;
+}
+
+#submit-button {
+  max-height: 60px;
+}
+
+.colored-icon {
+  color: #3f51b5
 }

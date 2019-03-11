@@ -2,14 +2,22 @@
   <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
   <form (submit)="onSubmit()">
     <div>
-      <label for="username">Username</label>
-      <input type="text" id="username" name="username" [(ngModel)]="username">
+        <mat-form-field appearance="outline">
+            <mat-label>Username</mat-label>
+            <input matInput placeholder="Please enter username" id="username" name="username" [(ngModel)]="username">
+            <i matSuffix class="material-icons colored-icon">perm_identity</i>
+        </mat-form-field>
     </div>
     <div>
-      <label for="password">Password</label>
-      <input type="password" id="password" name="password" [(ngModel)]="password">
+        <mat-form-field appearance="outline">
+            <mat-label>Password</mat-label>
+            <input matInput placeholder="Please enter password" id="password" name="password" [(ngModel)]="password">
+            <i matSuffix class="material-icons colored-icon">lock</i>
+        </mat-form-field>
     </div>
-    <button type="submit">Login</button>
+    <button mat-raised-button color="warn" type="submit">Login</button>
   </form>
-  <p>{{this.error}}</p>
+  <p style="color: #f51d0d; font-weight: bold;" *ngIf="this.error">
+    <i class="material-icons colored-icon">error_outline</i> {{this.error}}
+  </p>
 </div>
